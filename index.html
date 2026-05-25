@@ -37,6 +37,21 @@ body{
     align-items:center;
 }
 
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-spinner{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    border:2px solid #e0e0e0;
+    border-top:2px solid #4285f4;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
 .checkbox{
     width:28px;
     height:28px;
@@ -65,7 +80,7 @@ body{
 
 .label{
     margin-left:12px;
-    font-size:24px;
+    font-size:14px;
     color:#222;
     white-space:nowrap;
     line-height:1;
@@ -102,15 +117,15 @@ body{
 }
 
 .rc-text{
-    font-size:12px;
-    color:#777;
-    margin-top:6px;
+    font-size:10px;
+    color:#555;
+    margin-top:4px;
 }
 
 .small{
-    font-size:9px;
+    font-size:8px;
     color:#777;
-    margin-top:2px;
+    margin-top:1px;
 }
 </style>
 </head>
@@ -130,21 +145,104 @@ body{
 </div>
 
 <script>
-const widget = document.getElementById('widget');
-const checkbox = document.getElementById('checkbox');
-
-widget.addEventListener('click', () => {
-    checkbox.classList.add('checked');
-
-    setTimeout(() => {
-        alert(
-            "SECURITY AWARENESS DEMO\n\n" +
-            "This demonstrates how quickly a phishing interaction can occur.\n\n" +
-            "No information was collected."
-        );
-    }, 500);
-});
-</script>
+  let verified = false;
+  
+  const widget = document.getElementById('widget');
+  const checkbox = document.getElementById('checkbox');
+  const label = document.querySelector('.label');
+  
+  widget.addEventListener('click', () => {
+  
+      if (verified) return;
+  
+      checkbox.classList.add('checked');
+  
+      const originalLabel = label.innerHTML;
+  
+      label.innerHTML = `
+          <span style="display:flex;align-items:center;gap:6px;">
+              <span class="loading-spinner"></span>
+              Verifying...
+          </span>
+      `;
+  
+      setTimeout(() => {
+  
+          label.innerHTML = originalLabel;
+  
+          const overlay = document.createElement('div');
+  
+          overlay.style.cssText = `
+              position:fixed;
+              inset:0;
+              background:rgba(0,0,0,.82);
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              z-index:9999;
+              font-family:Roboto,sans-serif;
+          `;
+  
+          const modal = document.createElement('div');
+  
+          modal.style.cssText = `
+              background:#222;
+              border:1px solid #ff4444;
+              border-radius:14px;
+              padding:28px;
+              width:420px;
+              text-align:center;
+              color:white;
+              box-shadow:0 10px 40px rgba(0,0,0,.5);
+          `;
+  
+          modal.innerHTML = `
+              <div style="font-size:48px;margin-bottom:10px;">⚠️</div>
+  
+              <h2 style="margin:0 0 12px;color:#ff5555;">
+                  Security Awareness Demonstration
+              </h2>
+  
+              <p style="color:#ccc;line-height:1.5;margin-bottom:18px;">
+                  This was a simulated interaction designed for awareness training.
+                  <br><br>
+                  Social engineering and deceptive prompts often rely on speed and familiarity.
+                  <br><br>
+                  No information was collected or transmitted.
+              </p>
+  
+              <button id="closeBtn" style="
+                  background:#ff4444;
+                  color:white;
+                  border:none;
+                  padding:10px 24px;
+                  border-radius:8px;
+                  cursor:pointer;
+                  font-size:15px;
+              ">
+                  Close
+              </button>
+  
+              <div style="
+                  margin-top:14px;
+                  font-size:11px;
+                  color:#777;
+              ">
+                  Educational demo only
+              </div>
+          `;
+  
+          overlay.appendChild(modal);
+          document.body.appendChild(overlay);
+  
+          document.getElementById('closeBtn')
+              .addEventListener('click', () => overlay.remove());
+  
+          verified = true;
+  
+      }, 900);
+  });
+  </script>
 
 </body>
 </html>
