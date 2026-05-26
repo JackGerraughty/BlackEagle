@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Security Awareness Demo</title>
+<title>rnicrosoft.com</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
 
@@ -32,11 +32,48 @@ body{
     cursor:pointer;
 }
 
-.left{
+
+/* Left section */
+.verification-left{
     display:flex;
     align-items:center;
+    gap:12px;
 }
 
+/* Checkbox */
+.verification-checkbox{
+    width:28px;
+    height:28px;
+    background:#fff;
+    border:2px solid #c1c1c1;
+    border-radius:2px;
+    position:relative;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* Checked state */
+.verification-checkbox.checked::after{
+    content:"✓";
+    position:absolute;
+    left:3px;
+    top:-7px;
+    color:#34a853;
+    font-size:36px;
+    font-weight:400;
+    line-height:28px;
+}
+
+/* Label */
+.verification-text{
+    font-size:14px;
+    color:#222;
+    white-space:nowrap;
+    line-height:1;
+    user-select:none;
+}
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -52,31 +89,14 @@ body{
     animation:spin .8s linear infinite;
 }
 
-.checkbox{
-    width:28px;
-    height:28px;
-    border:2px solid #c1c1c1;
-    background:white;
-    border-radius:2px;
-    position:relative;
-    flex-shrink:0;
-}
+
 
 /* Checked state */
 .checkbox.checked{
     border-color:#c1c1c1;
 }
 
-.checkbox.checked::after{
-    content:"✓";
-    position:absolute;
-    left:3px;
-    top:-7px;
-    color:#34a853;
-    font-size:36px;
-    font-weight:400;
-    line-height:28px;
-}
+
 
 .label{
     margin-left:12px;
@@ -131,17 +151,23 @@ body{
 </head>
 <body>
 
-<div class="recaptcha" id="widget">
-    <div class="left">
-        <div class="checkbox" id="checkbox"></div>
-        <div class="label">I'm not a robot</div>
+  <div class="recaptcha" id="widget">
+
+    <!-- LEFT SIDE -->
+    <div class="verification-left">
+        <div class="verification-checkbox" id="checkbox"></div>
+        <div class="verification-text label">
+            I'm not a robot
+        </div>
     </div>
 
+    <!-- RIGHT SIDE -->
     <div class="right">
         <div class="logo"></div>
         <div class="rc-text">reCAPTCHA</div>
-        <div class="small">Privacy - Terms</div>
+        <div class="small">Privacy · Terms</div>
     </div>
+
 </div>
 
 <script>
